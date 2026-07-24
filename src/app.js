@@ -2,6 +2,8 @@ const express = require("express")
 const productRouter = require("./routes/product.routes")
 const logger = require("./middleware/logger.middleware")
 const errorHandler = require("./middleware/error.middleware")
+const userRouter = require("./routes/user.routes")
+const orderRouter = require("./routes/order.routes")
 
 const app = express()
 
@@ -17,6 +19,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/products", productRouter)
+app.use("/api/users", userRouter)
+app.use("/api/orders", orderRouter)
 
 
 //404 handler
