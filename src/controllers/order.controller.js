@@ -7,7 +7,7 @@ const getAllOrders = async (req, res, next) => {
         const orders = await orderService.getAllOrders()
         res.status(200).json({
             success: true,
-            orderCount: orders.length,
+            count: orders.length,
             data: orders
         })
         
@@ -23,7 +23,7 @@ const getOrderById = async(req, res, next) => {
         const order = await orderService.getOrderById(req.params.id)
         res.status(200).json({
             success: true,
-            orderDetails: order
+            data: order
         })
         
     } catch (err) {
@@ -38,7 +38,8 @@ const createOrder = async (req, res, next) => {
         const newOrder = await orderService.createOrder(req.body)
         res.status(200).json({
             success: true,
-            newOrder: newOrder
+            message: "Order created successfully",
+            data: newOrder
         })
         
     } catch (err) {
@@ -52,7 +53,8 @@ const updateOrderStatus = async (req, res, next) => {
         const updatedOrder = await orderService.updateOrderStatus(req.params.id, req.body)
         res.status(200).json({
             success: true,
-            updatedOrder: updatedOrder
+            message: "Order updated successfully",
+            data: updatedOrder
         })
         
     } catch (err) {
@@ -66,7 +68,7 @@ const cancelOrder = async (req, res, next) => {
         const deleteOrder = await orderService.cancelOrder(req.params.id)
         res.status(200).json({
             success: true,
-            message: `Order has been deleted`
+            message: `Order cancelled successfully`
         })
         
     } catch (err) {

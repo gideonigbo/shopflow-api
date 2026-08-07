@@ -18,9 +18,9 @@ app.get("/", (req, res) => {
     })
 })
 
-app.use("/api/products", productRouter)
-app.use("/api/users", userRouter)
-app.use("/api/orders", orderRouter)
+app.use("/api/v1/products", productRouter)
+app.use("/api/v1/users", userRouter)
+app.use("/api/v1/orders", orderRouter)
 
 
 //404 handler

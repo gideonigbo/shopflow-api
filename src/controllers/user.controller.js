@@ -6,7 +6,7 @@ const getAllUsers = async (req, res, next) => {
         const users = await userService.getAllUsers()
         res.status(200).json({
             success: true,
-            userCount: users.length,
+            count: users.length,
             data: users
         })
     } catch (err) {
