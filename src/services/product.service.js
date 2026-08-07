@@ -3,9 +3,9 @@
 // In Session 11 we replace this with real MongoDB queries
 // The rest of the architecture stays exactly the same
 let products = [
-    { id: 1, name: "Nike Air Max", price: 45000, category: "Shoes", inStock: true },
+    { id: 1, name: "Nike Air Max", price: 45000, category: "Body", inStock: true },
     { id: 2, name: "HP Laptop", price: 350000, category: "Computers", inStock: true },
-    { id: 3, name: "Nivea Lotion", price: 3500, category: "Body Care", inStock: false }
+    { id: 3, name: "Nivea Lotion", price: 3500, category: "Body", inStock: false }
 ]
 
 
@@ -13,8 +13,46 @@ let nextId = 4
 
 
 //Get all products
-const getAllProducts = async () => {
-    return products
+const getAllProducts = async (query) => {
+    let result = [...products]
+
+    //Filter by category
+    if (query.category) {
+        result = result.filter(p => p.category.toLowerCase() === query.category.toLowerCase())
+    }
+
+    //Filter by Instock
+    if (query.inStock !== undefined) {
+        const inStock = query.inStock === "true" //query params are always strings
+        result = result.filter(p => p.inStock === inStock)
+    }
+
+    //Sorting
+    if (query.sort === "price_asc") {
+        result.sort((a,b) => a.price - b.price)
+    }
+    if (query.sort === "price_desc") {
+        result.sort((a,b) => b.price - a.price)
+    }
+
+    //Pagination
+    const page = parseInt(query.page)  || 1
+    const limit = parseInt(query.limit) || 10
+    const startIndex = (page - 1) * limit
+    endIndex = page * limit
+
+    const total = result.length
+    result = result.slice(startIndex, endIndex)
+
+    return {
+        total,
+        page,
+        limit,
+        count: result.length,
+        data: result
+    }
+    
+
 }
 
 //Get a product by ID

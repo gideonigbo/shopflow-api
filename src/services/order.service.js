@@ -3,8 +3,8 @@
 const createdDate = new Date().toISOString()
 
 let orders = [
-    {id: 1, userId: 2345, products: ["Gucci shoes", "Plain Tees"], totalAmount: 100000, status: "completed", createdAt: createdDate},
-    {id: 2, userId: 2805, products: ["Mac Charger"], totalAmount: 4000, status: "pending", createdAt: createdDate},
+    {id: 1, userId: 1, products: ["Gucci shoes", "Plain Tees"], totalAmount: 100000, status: "completed", createdAt: createdDate},
+    {id: 2, userId: 1, products: ["Mac Charger"], totalAmount: 4000, status: "pending", createdAt: createdDate},
     {id: 3, userId: 3011, products: ["School bag", "Coloured socks"], totalAmount: 20000, status: "completed", createdAt: createdDate}
 ]
 
@@ -32,7 +32,7 @@ const createOrder = async(data) => {
     const { userId, products, totalAmount, status} = data
     if(!userId || !products || !totalAmount) {
         const err = new Error("userId, products, totalAmount can not be empty")
-        err.statusCode = 400
+        err.statusCode = 201
         throw err
     }
 
@@ -75,7 +75,7 @@ const cancelOrder = async (id) => {
     }
 
     const canceled = orders.splice(index, 1)
-    return canceled
+    return canceled[0]
 }
 
 module.exports = {
