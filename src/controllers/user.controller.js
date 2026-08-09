@@ -3,11 +3,10 @@ const userService = require("../services/user.service")
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await userService.getAllUsers()
+        const users = await userService.getAllUsers(req.query)
         res.status(200).json({
             success: true,
-            count: users.length,
-            data: users
+            ...users
         })
     } catch (err) {
         next(err)
