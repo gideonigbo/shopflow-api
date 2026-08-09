@@ -4,7 +4,7 @@
 // The rest of the architecture stays exactly the same
 let products = [
     { id: 1, name: "Nike Air Max", price: 45000, category: "Body", inStock: true },
-    { id: 2, name: "HP Laptop", price: 350000, category: "Computers", inStock: true },
+    { id: 2, name: "Laptop", price: 350000, category: "Computers", inStock: true },
     { id: 3, name: "Nivea Lotion", price: 3500, category: "Body", inStock: false }
 ]
 
@@ -15,6 +15,11 @@ let nextId = 4
 //Get all products
 const getAllProducts = async (query) => {
     let result = [...products]
+
+    //Search by name
+    if (query.search) {
+        result = result.filter(p => p.name.toLowerCase() === query.search.toLowerCase())
+    }
 
     //Filter by category
     if (query.category) {

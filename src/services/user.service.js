@@ -14,8 +14,29 @@ let users = [
 let nextId = 3
 
 //Get all users
-const getAllUsers = async () => {
-    return users
+const getAllUsers = async (query) => {
+    let result = [...users]
+
+    //Filter by role
+    if (query.role)
+        result = result.filter(p => p.role.toLowerCase() === query.role.toLowerCase())
+
+    //Pagination
+    const page = parseInt(query.page)  || 1
+    const limit = parseInt(query.limit) || 10
+    const startIndex = (page - 1) * limit
+    endIndex = page * limit
+
+    const total = result.length
+    result = result.slice(startIndex, endIndex)
+
+    return {
+        total,
+        page,
+        limit,
+        count: result.length,
+        data: result
+    }
 }
 
 //Get a user with ID

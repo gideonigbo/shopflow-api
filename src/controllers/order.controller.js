@@ -36,7 +36,7 @@ const getOrderById = async(req, res, next) => {
 const createOrder = async (req, res, next) => {
     try {
         const newOrder = await orderService.createOrder(req.body)
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             message: "Order created successfully",
             data: newOrder
