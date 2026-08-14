@@ -18,7 +18,7 @@ const getAllProducts = async (query) => {
 
     //Search by name
     if (query.search) {
-        result = result.filter(p => p.name.toLowerCase() === query.search.toLowerCase())
+        result = result.filter(p => p.name.toLowerCase().includes(query.search.toLowerCase()))
     }
 
     //Filter by category
