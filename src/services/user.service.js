@@ -25,7 +25,7 @@ const getAllUsers = async (query) => {
     const page = parseInt(query.page)  || 1
     const limit = parseInt(query.limit) || 10
     const startIndex = (page - 1) * limit
-    endIndex = page * limit
+    const endIndex = page * limit
 
     const total = result.length
     result = result.slice(startIndex, endIndex)
