@@ -1,4 +1,4 @@
-const { NotFoundError, ValidationError } = require("../utils/AppError")
+const { NotFoundError, ValidationError, ConflictError } = require("../utils/AppError")
 
 
 // Temporary in-memory store
@@ -56,9 +56,14 @@ const getUserById = async(id) => {
 //Create a user
 const createUser = async(data) => {
     const { name, email, role } = data
+    const savedEmail = users.find(p => p.email === email)
 
     if(!name || !email) {
         throw new ValidationError("Name, Email are required")
+    }
+
+    if(savedEmail) {
+        throw new ConflictError(`Email Address already exist.`)
     }
 
     const newUser = {
