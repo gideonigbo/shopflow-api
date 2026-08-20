@@ -1,74 +1,52 @@
 const userService = require("../services/user.service")
+const asyncHandler = require("../utils/asyncHandler")
 
 
-const getAllUsers = async (req, res, next) => {
-    try {
-        const users = await userService.getAllUsers(req.query)
-        res.status(200).json({
-            success: true,
-            ...users
-        })
-    } catch (err) {
-        next(err)
-    }
-}
+const getAllUsers = asyncHandler(async (req, res, next) => {
+    const users = await userService.getAllUsers(req.query)
+    res.status(200).json({
+        success: true,
+        ...users
+    })
+})
 
 
-const getUserById = async (req, res, next) => {
-    try {
-        const user = await userService.getUserById(req.params.id)
-        res.status(200).json({
-            success: true,
-            data: user
-        })
-        
-    } catch (err) {
-        next(err)
-    }
-}
+const getUserById = asyncHandler(async (req, res, next) => {
+    const user = await userService.getUserById(req.params.id)
+    res.status(200).json({
+        success: true,
+        data: user
+    })       
+})
 
 
-const createUser = async (req, res, next) => {
-    try {
-        const user = await userService.createUser(req.body)
-        res.status(201).json({
-            success: true,
-            message: "User created successfully",
-            data: user
-        })
-        
-    } catch (err) {
-        next(err)
-    }
-}
+const createUser = asyncHandler(async (req, res, next) => {
+    const user = await userService.createUser(req.body)
+    res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        data: user
+    })
+})
 
 
-const updateUser = async (req, res, next) => {
-    try {
-        const user = await userService.updateUser(req.params.id, req.body)
-        res.status(200).json({
-            success: true,
-            message: "User updated successfully",
-            data: user
-        })
-        
-    } catch (err) {
-        next(err)
-    }
-}
+const updateUser = asyncHandler(async (req, res, next) => {
+    const user = await userService.updateUser(req.params.id, req.body)
+    res.status(200).json({
+        success: true,
+        message: "User updated successfully",
+        data: user
+    })
+})
 
 
-const deleteUser = async (req, res, next) => {
-    try {
-        await userService.deleteUser(req.params.id)
-        res.status(200).json({
-            success: true,
-            message: "User deleted successfully"
-        })
-    } catch (err) {
-        next(err)
-    }
-}
+const deleteUser = asyncHandler(async (req, res, next) => {
+    await userService.deleteUser(req.params.id)
+    res.status(200).json({
+        success: true,
+        message: "User deleted successfully"
+    })
+})
 
 
 

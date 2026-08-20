@@ -1,3 +1,5 @@
+const { NotFoundError, ValidationError } = require("../utils/AppError")
+
 // Temporary in-memory store
 // This is an array acting as our "database" for now
 // In Session 11 we replace this with real MongoDB queries
@@ -65,9 +67,10 @@ const getProductById = async (id) => {
     const product = products.find(p => p.id === parseInt(id))
 
     if (!product) {
-        const err = new Error(`Product with id:${id} not found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Product with id ${id}`)
+        // const err = new Error(`Product with id:${id} not found`)
+        // err.statusCode = 404
+        // throw err
     }
 
     return product
@@ -78,9 +81,7 @@ const createProduct = async (data) => {
     const { name, price, category } = data
 
     if (!name || !price || !category) {
-        const err = new Error("Name, price and category are required")
-        err.statusCode = 400
-        throw err
+        throw new ValidationError("Name, price and category are required")
     }
 
     const newProduct = {
@@ -100,9 +101,7 @@ const updateProduct = async (id, data) => {
     const index = products.findIndex(p => p.id === parseInt(id))
 
     if (index === -1) {
-        const err = new Error(`Product with id ${id} not found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Product with id ${id}`)
     }
 
     products[index] = { ...products[index], ...data }
@@ -114,9 +113,7 @@ const deleteProduct = async (id) => {
     const index = products.findIndex(p => p.id === parseInt(id))
 
     if (index === -1) {
-        const err = new Error(`Product with id ${id} not found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Product with id ${id}`)
     }
 
     const deleted = products.splice(index, 1)
