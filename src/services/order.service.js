@@ -1,4 +1,4 @@
-//
+const { NotFoundError, ValidationError } = require("../utils/AppError")
 
 const createdDate = new Date().toISOString()
 
@@ -19,9 +19,7 @@ const getOrderById = async (id) => {
     const order = orders.find(p => p.id === parseInt(id))
 
     if (!order) {
-        const err = new Error(`Order with id: ${id} not found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Order with Id: ${id}`)
     }
 
     return order
@@ -31,9 +29,7 @@ const getOrderById = async (id) => {
 const createOrder = async(data) => {
     const { userId, products, totalAmount, status} = data
     if(!userId || !products || !totalAmount) {
-        const err = new Error("userId, products, totalAmount can not be empty")
-        err.statusCode = 201
-        throw err
+        throw new ValidationError("user ID, products, total Amount are required")
     }
 
     const newOrder = {
@@ -54,9 +50,7 @@ const updateOrderStatus = async(id, data) => {
     const index = orders.findIndex(p => p.id === parseInt(id))
 
     if(index === -1) {
-        const err = new Error(`Order with ID: ${id} can not be found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Order with Id: ${id}`)
     }
 
     orders[index] = {...orders[index], ...data}
@@ -69,9 +63,7 @@ const cancelOrder = async (id) => {
     const index = orders.findIndex(p => p.id === parseInt(id))
 
     if(index === -1) {
-        const err = new Error(`Order with ID: ${id} can not be found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`Order with Id: ${id}`)
     }
 
     const canceled = orders.splice(index, 1)

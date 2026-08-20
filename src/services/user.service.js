@@ -1,3 +1,6 @@
+const { NotFoundError, ValidationError } = require("../utils/AppError")
+
+
 // Temporary in-memory store
 // This is an array acting as our "database" for now
 // In Session 11 we replace this with real MongoDB queries
@@ -44,9 +47,7 @@ const getUserById = async(id) => {
     const user = users.find(p => p.id === parseInt(id))
 
     if (!user) {
-        const err = new Error(`User with Id: ${id} not found`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`User with Id: ${id}`)
     }
     return user
 }
@@ -57,9 +58,7 @@ const createUser = async(data) => {
     const { name, email, role } = data
 
     if(!name || !email) {
-        const err = new Error(`Name and email are required`)
-        err.statusCode = 400
-        throw err
+        throw new ValidationError("Name, Email are required")
     }
 
     const newUser = {
@@ -80,9 +79,7 @@ const updateUser = async(id, data) => {
     const index = users.findIndex(p => p.id === parseInt(id))
 
     if (index === -1){
-        const err = new Error(`User with Id ${id} not found.`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`User with Id: ${id}`)
     }
 
     users[index] = {...users[index], ...data}
@@ -95,9 +92,7 @@ const deleteUser = async (id) => {
     const index = users.findIndex(p => p.id === parseInt(id))
 
     if (index === -1){
-        const err = new Error(`User with Id ${id} not found.`)
-        err.statusCode = 404
-        throw err
+        throw new NotFoundError(`User with Id: ${id}`)
     }
 
     const deleted = users.splice(index, 1)
